@@ -13,7 +13,7 @@ The load generator ran on the same machine as the server. Power: All runs were o
 - Starter files (`eta_data.py`, `load_test.py`, `requirements.txt`, used unmodified);
 - Lecture 10 notebooks REST_API_Serving, MLflow_Serving and Ray_Serve; Lecture 9 Monitoring via Prometheus.
 - Documentation: FastAPI/pydantic, MLflow (pyfunc, registry aliases, models serve), Ray Serve (deployments, autoscaling), Prometheus text format; Little's Law for the load-test analysis.
-- AI assistance: I generated the .py files with AI (Claude Sonnet 5.5 Medium).
+- AI assistance: I generated the .py files with AI (Claude, Sonnet 5.5, Medium).
 
 ---
 
