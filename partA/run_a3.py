@@ -32,7 +32,7 @@ def main():
     srv = subprocess.Popen([sys.executable, "-m", "uvicorn", "eta_app:app", "--port", "8000",
                             "--workers", str(a.workers), "--log-level", "warning"], env=env)
     try:
-        for _ in range(60):                                   # wait for the server
+        for _ in range(60):
             try:
                 if requests.get("http://127.0.0.1:8000/healthz", timeout=1).ok:
                     break
@@ -45,7 +45,7 @@ def main():
         b100 = load_test.run(URL, "rest", 1, a.duration, rows, 100)
         for r, b in ((b1, 1), (b100, 100)):
             r["batch"] = b
-            r["ms_per_row"] = round(1000 / (r["rps"] * b), 3)   # concurrency 1: wall time per row
+            r["ms_per_row"] = round(1000 / (r["rps"] * b), 3)
         out = {"workers": a.workers, "cpu_count": os.cpu_count(),
                "concurrency_sweep": sweep, "batch1": b1, "batch100": b100}
         name = "loadtest_results.json" if a.workers == 1 else f"loadtest_results_w{a.workers}.json"

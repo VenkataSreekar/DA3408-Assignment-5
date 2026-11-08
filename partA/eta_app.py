@@ -15,8 +15,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field, model_validator
 
-# --------------------------------------------------------------------------- model
-# Loaded exactly once, at import time. Tests can monkeypatch `eta_app.model`.
+
 MODEL_PATH = os.environ.get("ETA_MODEL", "data/eta_v1.joblib")
 _bundle = joblib.load(MODEL_PATH)
 model = _bundle["model"]
@@ -26,7 +25,6 @@ MODEL_VERSION = str(_bundle["version"])
 MAX_BATCH = 500
 
 
-# --------------------------------------------------------------------------- schema
 class Instance(BaseModel):
     distance_km: float = Field(ge=0.1, le=500, allow_inf_nan=False)
     n_stops: int = Field(ge=1, le=60)
@@ -49,16 +47,14 @@ class PredictRequest(BaseModel):
     instances: list[Instance] = Field(min_length=1, max_length=MAX_BATCH)
 
 
-# --------------------------------------------------------------------------- metrics
-# Hand-written Prometheus text exposition (no extra dependency).
 BUCKETS = (0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5)
 
 
 class Metrics:
     def __init__(self):
         self._lock = threading.Lock()
-        self.counts = {}                       # (path, status) -> int
-        self.bucket_counts = [0] * len(BUCKETS)  # non-cumulative per bucket
+        self.counts = {}
+        self.bucket_counts = [0] * len(BUCKETS)
         self.total = 0
         self.sum = 0.0
 
@@ -94,7 +90,6 @@ class Metrics:
 metrics = Metrics()
 KNOWN_PATHS = {"/v1/models/eta:predict", "/healthz"}
 
-# --------------------------------------------------------------------------- app
 app = FastAPI(title="SwiftParcel ETA")
 _ID_OK = re.compile(r"^[A-Za-z0-9._\-]{1,128}$")
 
@@ -131,7 +126,6 @@ async def on_validation_error(request: Request, exc: RequestValidationError):
 
 @app.post("/v1/models/eta:predict")
 def predict(req: PredictRequest, request: Request):
-    # plain `def` -> FastAPI runs it in the threadpool, so the event loop stays free
     rid = _request_id(request)
     try:
         df = pd.DataFrame([i.model_dump() for i in req.instances])[FEATURE_COLUMNS]

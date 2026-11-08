@@ -13,9 +13,9 @@ from fastapi import FastAPI, Header
 from pydantic import BaseModel, Field
 from ray import serve
 
-SALT = "swiftparcel-eta-canary-v1"   # fixed forever: changing it would reshuffle every customer
+SALT = "swiftparcel-eta-canary-v1"
 PROD_CPU, CAND_CPU, ROUTER_CPU = 0.25, 0.25, 0.25
-# worst case: 2*0.25 (prod) + 3*0.25 (candidate at max) + 0.25 (router) = 1.5 CPU  <= 2
+
 
 
 def bucket(customer_id: str) -> float:
@@ -46,7 +46,7 @@ class EtaModel:
 
     def predict(self, rows: list) -> dict:
         if self.extra_work_ms:
-            time.sleep(self.extra_work_ms / 1000.0)      # simulate a heavier model
+            time.sleep(self.extra_work_ms / 1000.0)
         X = pd.DataFrame(rows)[self.cols]
         preds = [round(float(p), 1) for p in self.model.predict(X)]
         return {"predictions": preds, "model_version": self.version, "served_by": self.replica}

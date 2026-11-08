@@ -1,15 +1,19 @@
 # Module 4 – Assignment 5: SwiftParcel ETA service
 
-Roll no: **TODO** · Name: **TODO**
+Roll no: **DA24B030** · Name: **Venkata Sreekar**
 
 ## Machine and environment (used for every number below)
 ASUS Zenbook 14 (UX3405CA), Intel Core Ultra 5 225H, 14 CPUs (`lscpu`: 14 cores, 1 thread per core, `os.cpu_count()` = 14), 14 GiB RAM
 (about 7.7 GiB already in use by other applications during my runs), Linux, conda environment `aiops`, Python 3.13.15.
 Packages (installed with pip into the conda env): fastapi 0.141.1, uvicorn 0.52.4, scikit-learn 1.9.0, pandas 2.3.3, mlflow 3.15.2, ray 2.59.0.
-The load generator ran on the same machine as the server. Power: TODO (on AC / battery, power mode).
+The load generator ran on the same machine as the server. Power: All runs were on battery power with the balanced power profile (not plugged in, not in performance mode).
 `lscpu` reported the CPU at 22 % of its maximum frequency at an idle moment, so frequency scaling is a source of noise.
 
-Sources reused: TODO – list any ideas or fragments taken from the lecture notebooks (cite them here); everything else was written for this assignment.
+## Sources and assistance
+- Starter files (`eta_data.py`, `load_test.py`, `requirements.txt`, used unmodified);
+- Lecture 10 notebooks REST_API_Serving, MLflow_Serving and Ray_Serve; Lecture 9 Monitoring via Prometheus.
+- Documentation: FastAPI/pydantic, MLflow (pyfunc, registry aliases, models serve), Ray Serve (deployments, autoscaling), Prometheus text format; Little's Law for the load-test analysis.
+- AI assistance: I generated the .py files with AI (Claude Sonnet 5.5 Medium).
 
 ---
 

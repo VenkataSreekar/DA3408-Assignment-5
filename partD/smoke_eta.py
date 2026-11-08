@@ -43,7 +43,7 @@ def main():
     def check(name, fn):
         try:
             ok, detail = fn()
-        except Exception as e:  # any exception = failed check
+        except Exception as e:
             ok, detail = False, f"{type(e).__name__}: {e}"
         results.append(ok)
         print(f"[{'PASS' if ok else 'FAIL'}] {name}: {detail}")

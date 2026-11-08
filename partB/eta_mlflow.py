@@ -23,10 +23,10 @@ import eta_data
 TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
 MODEL_NAME = "eta-model"
 RUSH_HOURS = (7, 8, 9, 16, 17, 18, 19)
-EPS = 1e-12  # absorbs float noise at exact thresholds
+EPS = 1e-12
 
 
-# ----------------------------------------------------------------------------- B1: pyfunc
+
 class EtaPyfunc(mlflow.pyfunc.PythonModel):
     """Wraps a {model, feature_columns, version} bundle."""
 
@@ -66,7 +66,7 @@ def register(data_dir="data"):
     for label in ("v1", "v2"):
         info = _log_one(f"{data_dir}/eta_{label}.joblib", label, example)
         mv = getattr(info, "registered_model_version", None)
-        if mv is None:  # fall back: newest version registered from this run
+        if mv is None:
             mv = max(int(m.version) for m in client.search_model_versions(f"name='{MODEL_NAME}'"))
         versions[label] = str(mv)
     client.set_registered_model_alias(MODEL_NAME, "prod", versions["v1"])
@@ -87,7 +87,7 @@ def registry_table():
     return pd.DataFrame(rows)
 
 
-# ----------------------------------------------------------------------------- B2: gate
+
 def decide(prod, cand, min_rel_gain=0.03, max_p95_ms=10.0, max_slice_regression=0.05):
     """Pure promotion rule. prod / cand: dicts with mae, mae_rush, mae_rain, p95_ms.
 

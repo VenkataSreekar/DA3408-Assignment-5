@@ -29,7 +29,7 @@ def call_all(ids, headers=None):
 
 def deploy(weight):
     serve.run(build(weight=weight), name="eta", route_prefix="/", blocking=False)
-    for _ in range(120):                               # wait until the app answers
+    for _ in range(120):
         try:
             call("warmup"); return
         except Exception:
@@ -42,7 +42,7 @@ def main():
     serve.start(http_options={"host": "127.0.0.1", "port": PORT})
     print(f"Ray CPUs total={ray.cluster_resources()['CPU']}")
 
-    # ---- deploy weight = 0.2 -------------------------------------------------------------------
+
     deploy(0.2)
     print(f"CPUs still free with the whole app deployed: {ray.available_resources().get('CPU', 0):.2f}")
     first = call_all(IDS)
@@ -51,14 +51,14 @@ def main():
     assert abs(share - 0.2) <= 0.04
     assert all(first[c] == arm_for(c, 0.2) for c in IDS), "router disagrees with arm_for()"
 
-    # ---- (b) sticky on a second call ------------------------------------------------------------
+
     sample = IDS[:200]
     second = call_all(sample)
     same = sum(first[c] == second[c] for c in sample)
     print(f"(b) {same}/200 customers got the same arm on a second call")
     assert same == 200
 
-    # ---- (c) identical redeploy -----------------------------------------------------------------
+
     serve.delete("eta"); time.sleep(2)
     deploy(0.2)
     again = call_all(IDS)
@@ -66,7 +66,7 @@ def main():
     print(f"(c) after delete + identical redeploy: {same_all}/{len(IDS)} customers on the same arm")
     assert same_all == len(IDS)
 
-    # ---- (d) raise weight 0.2 -> 0.5: nobody leaves the candidate --------------------------------
+
     deploy(0.5)
     raised = call_all(IDS)
     was_cand = [c for c in IDS if first[c] == "v2"]
@@ -76,7 +76,7 @@ def main():
           f"moved back to v1 = {len(moved_back)}")
     assert not moved_back and abs(share2 - 0.5) <= 0.05
 
-    # ---- (e) header override ----------------------------------------------------------------------
+
     prod_customers = [c for c in IDS if raised[c] == "v1"][:50]
     forced = call_all(prod_customers, headers={"X-Beta": "1"})
     plain = call_all(prod_customers)

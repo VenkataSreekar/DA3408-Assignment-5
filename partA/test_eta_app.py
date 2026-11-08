@@ -73,7 +73,6 @@ def test_cross_field_infeasible(client):
     r = post(client, [dict(ROW, distance_km=151, n_stops=21)])
     assert r.status_code == 422
     assert "infeasible" in r.text
-    # boundaries that are still feasible
     assert post(client, [dict(ROW, distance_km=150, n_stops=21)]).status_code == 200
     assert post(client, [dict(ROW, distance_km=151, n_stops=20)]).status_code == 200
 
@@ -122,8 +121,7 @@ def test_metrics_output(client):
     assert 'eta_request_latency_seconds_bucket{le="+Inf"}' in after
     assert len(re.findall(r"eta_request_latency_seconds_bucket\{le=", after)) >= 4
     assert "eta_request_latency_seconds_sum" in after and "eta_request_latency_seconds_count" in after
-    assert 'path="/metrics"' not in after       # /metrics itself is never counted
-
+    assert 'path="/metrics"' not in after
 
 def test_generic_500_hides_internals(client, monkeypatch):
     class Boom:
