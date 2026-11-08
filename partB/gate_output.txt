@@ -1,0 +1,61 @@
+### default thresholds
+{
+  "criteria": {
+    "overall_gain": true,
+    "latency": true,
+    "slice_rush": true,
+    "slice_rain": true
+  },
+  "promote": true,
+  "details": {
+    "rel_gain": 0.4894,
+    "rush_ratio": 0.436,
+    "rain_ratio": 0.5408,
+    "cand_p95_ms": 1.745
+  },
+  "prod": {
+    "mae": 11.9553,
+    "mae_rush": 19.679859894921194,
+    "mae_rain": 11.622736418511066,
+    "p95_ms": 1.812466449882777
+  },
+  "candidate": {
+    "mae": 6.104850000000001,
+    "mae_rush": 8.579509632224168,
+    "mae_rain": 6.285311871227364,
+    "p95_ms": 1.7448822009100695
+  },
+  "thresholds": {}
+}
+
+### min_rel_gain=0.60
+{
+  "criteria": {
+    "overall_gain": false,
+    "latency": true,
+    "slice_rush": true,
+    "slice_rain": true
+  },
+  "promote": false,
+  "details": {
+    "rel_gain": 0.4894,
+    "rush_ratio": 0.436,
+    "rain_ratio": 0.5408,
+    "cand_p95_ms": 1.76
+  },
+  "prod": {
+    "mae": 11.9553,
+    "mae_rush": 19.679859894921194,
+    "mae_rain": 11.622736418511066,
+    "p95_ms": 1.814758101136249
+  },
+  "candidate": {
+    "mae": 6.104850000000001,
+    "mae_rush": 8.579509632224168,
+    "mae_rain": 6.285311871227364,
+    "p95_ms": 1.759612498972274
+  },
+  "thresholds": {
+    "min_rel_gain": 0.6
+  }
+}

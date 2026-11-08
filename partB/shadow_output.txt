@@ -1,0 +1,7 @@
+requests compared                 : 200
+(i)   mean |prod - candidate|      : 9.48 min
+(ii)  requests differing by > 10 m : 35.0 %
+(iii) p95 latency  prod            : 23.0 ms   (p50 19.1)
+      p95 latency  candidate       : 14.8 ms   (p50 11.5)
+mean prediction  prod / candidate  : 118.9 / 119.0 min
+(context) MAE vs truth prod / cand : 11.42 / 6.11 min

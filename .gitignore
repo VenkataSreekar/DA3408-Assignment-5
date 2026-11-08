@@ -1,0 +1,8 @@
+data/
+mlruns/
+mlflow.db
+__pycache__/
+.pytest_cache/
+*.pyc
+verify_full.txt
+*.log

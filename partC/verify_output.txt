@@ -1,0 +1,8 @@
+Ray CPUs total=2.0
+CPUs still free with the whole app deployed: 1.00
+(a) candidate share over 1000 distinct customers = 0.207  (target 0.200 +/- 0.040)
+(b) 200/200 customers got the same arm on a second call
+(c) after delete + identical redeploy: 1000/1000 customers on the same arm
+(d) weight 0.5: share = 0.488; customers that were on v2 = 207, moved back to v1 = 0
+(e) 50 prod customers with X-Beta: 1 -> 50/50 served by v2; without the header -> 50/50 still v1
+ALL CHECKS PASSED
